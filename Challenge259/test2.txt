@@ -1,0 +1,15 @@
+14
+Circle,4
+Bamboo,1
+Circle,5
+Bamboo,2
+Character,2
+Bamboo,3
+Character,2
+Circle,6
+Character,2
+Circle,1
+Bamboo,8
+Circle,1
+Bamboo,7
+Bamboo,9

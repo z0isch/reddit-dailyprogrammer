@@ -1,0 +1,7 @@
+extra-deps:
+- irc-0.6.1.0
+resolver: lts-3.5
+flags: {}
+extra-package-dbs: []
+packages:
+- '.'
