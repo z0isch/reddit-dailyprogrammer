@@ -19,3 +19,5 @@ executable Challenge261
   build-depends:       base >= 4.7 && < 5
                      , split
                      , hspec
+                     , trifecta
+                     , parallel

@@ -1,7 +1,8 @@
 module Intermediate where
 
 import           Data.List
-import qualified Easy      as E
+import qualified Easy          as E
+import           Text.Trifecta
 
 findMagicSquare :: [[Integer]] -> Maybe ([[Integer]],Bool)
 findMagicSquare square = lastMay $ dropWhileEnd (\(_,x) -> not x) (squares square)
@@ -9,42 +10,32 @@ findMagicSquare square = lastMay $ dropWhileEnd (\(_,x) -> not x) (squares squar
 squares :: [[Integer]] -> [([[Integer]], Bool)]
 squares sq = map (\x -> (x,E.isMagicSquare x)) $ permutations sq
 
+lastMay :: [a] -> Maybe a
 lastMay xs
   | null xs = Nothing
   | otherwise = Just (last xs)
 
-test1 =
-  [[15,14,1,4]
-  ,[12,6,9,7]
-  ,[2,11,8,13]
-  ,[5,3,16,10]]
+testSquares :: IO [[[Integer]]]
+testSquares = do
+  test <- parseFromFile parseFile ".\\intermediate\\tests.txt"
+  case test of
+    Nothing -> return [[[]]]
+    Just ts -> return ts
 
-test2 =
-  [[20,19,38,30,31,36,64,22],
-  [8,16,61,53,1,55,32,34],
-  [33,60,25,9,26,50,13,44],
-  [37,59,51,4,41,6,23,39],
-  [58,35,2,48,10,40,46,21],
-  [62,11,54,47,45,7,5,29],
-  [18,57,17,27,63,14,49,15],
-  [24,3,12,42,43,52,28,56]]
+endOfLine :: Parser Char
+endOfLine = choice [newline,char '\r' *> newline]
 
-test3 =
-  [[63,19,22,37,28,8,47,36],
-  [45,23,43,53,11,34,18,33],
-  [41,62,46,27,5,24,42,13],
-  [32,56,31,12,64,20,6,39],
-  [16,60,3,7,17,59,54,44],
-  [21,30,14,50,35,2,57,51],
-  [4,9,61,25,48,58,26,29],
-  [38,1,40,49,52,55,10,15]]
+skipLine :: Parser String
+skipLine = manyTill anyChar endOfLine
 
-test4 =
-  [[23,27,31,42,45,1,32,59],
-  [61,33,14,17,60,56,4,15],
-  [7,57,37,6,25,18,63,47],
-  [40,55,22,20,9,44,46,24],
-  [21,10,3,49,62,11,50,54],
-  [19,35,36,52,5,43,29,41],
-  [51,13,64,16,26,48,34,8],
-  [38,30,53,58,28,39,2,12]]
+integerParser :: Parser Integer
+integerParser = read <$> some digit
+
+parseSquareLine :: Parser [Integer]
+parseSquareLine = integerParser `sepBy1` char ' ' <* endOfLine
+
+parseSquare :: Parser [[Integer]]
+parseSquare = skipLine *> some parseSquareLine <* skipOptional skipLine
+
+parseFile :: Parser [[[Integer]]]
+parseFile = some parseSquare <* eof
