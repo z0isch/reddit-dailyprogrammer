@@ -19,3 +19,5 @@ executable Challenge263
   build-depends:       base >= 4.7 && < 5
                     ,  containers
                     ,  hspec
+                    ,  trifecta
+                    ,  containers
