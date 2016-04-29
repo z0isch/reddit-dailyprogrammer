@@ -1,14 +1,14 @@
 module Main where
 
-import           Data.Map     ((!))
-import qualified Easy         as E
-import qualified Intermediate as I
+import qualified Challenge263.Easy         as E
+import qualified Challenge263.Intermediate as I
+import           Data.Map                  ((!))
 import           Test.Hspec
 
 main :: IO ()
 main = do
   let easyInput = ["122333444455555666666777777788888888","563881467447538846567288767728553786","https://www.reddit.com/r/dailyprogrammer","int main(int argc, char *argv[])"]
-  rhymeDictionary <- I.pronouncingDictionary
+  rhymeDictionary <- I.pronouncingDictionary ".\\intermediate\\pronouncing-dictionary.txt"
   let matchingRhymes = I.rhymeWords I.isMatchingPhoneme rhymeDictionary "SOLUTION"
   let challenegeMatchingRhymes = I.rhymeWords I.challengeIsMatchingPhoneme rhymeDictionary "NOIR"
   hspec $ do
